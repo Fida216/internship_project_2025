@@ -1,0 +1,30 @@
+/* sidebar.component.css */
+.active {
+    background-color: #69C2C6 !important;
+    color: #223C7F !important;
+  }
+  
+  .active i {
+    color: #223C7F !important;
+  }
+
+  /* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #69C2C6;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+/* Optional hover effect */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #50b2b7;
+}

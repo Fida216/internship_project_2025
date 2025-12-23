@@ -1,0 +1,6 @@
+services:
+    App\Shared\EventListener\AuthorizationListener:
+        arguments:
+            $userInfoRepository: '@App\Domain\User\Repository\UserInfoRepository'
+        tags:
+            - { name: 'kernel.event_subscriber' }

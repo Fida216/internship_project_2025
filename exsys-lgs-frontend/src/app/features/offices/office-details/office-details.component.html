@@ -1,0 +1,50 @@
+<div class="office-details-container" *ngIf="office">
+    <app-breadcrumb [items]="[
+        { label: 'Exchange Offices', link: '/offices' },
+        { label: office.name }
+    ]">
+    </app-breadcrumb>
+
+    <div class="office-banner">
+        <div class="banner-icon">
+            <mat-icon>business</mat-icon>
+        </div>
+        <div class="banner-info">
+            <h1>{{ office.name }}</h1>
+            <p>Status: <mat-chip [color]="getStatusColor(office.status)" selected>
+                    {{ office.status | titlecase }}
+                </mat-chip></p>
+            <p>Created: {{ office.createdAt | date:'mediumDate' }}</p>
+        </div>
+        <div class="banner-actions" *ngIf="isAdmin">
+            <button mat-raised-button color="primary" (click)="openEditDialog()">
+                <mat-icon>edit</mat-icon> Edit
+            </button>
+        </div>
+    </div>
+
+    <mat-card class="details-card">
+        <mat-card-content>
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3>Email</h3>
+                    <p>{{ office.email }}</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Phone</h3>
+                    <p>{{ office.phone }}</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Owner</h3>
+                    <p>{{ office.owner }}</p>
+                </div>
+                <div class="dashboard-card full-width">
+                    <h3>Address</h3>
+                    <p>{{ office.address }}</p>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+<mat-spinner *ngIf="isLoading" class="primary-spinner"></mat-spinner>   

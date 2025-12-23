@@ -1,0 +1,96 @@
+<div class="min-h-screen flex items-center justify-center bg-secondary  px-4">
+  <div class="bg-white rounded-2xl shadow-xl flex w-full max-w-4xl overflow-hidden">
+    
+    <!-- Left Side: Logo + Form -->
+    <div class="flex-1 p-12">
+      <!-- Logo -->
+      <div class="logo-container">
+        <img src="assets/logo.png" alt="App Logo" class="h-12">
+      </div>
+
+      <h2 class="text-2xl font-semibold mb-6 text-gray-800">Welcome back</h2>
+
+      <!-- Error Message -->
+      <div *ngIf="errorMessage" class="bg-red-50 text-red-600 p-3 rounded-lg mb-4 text-sm">
+        {{ errorMessage }}
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6">
+        
+        <!-- Username -->
+        <div>
+          <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+          <input 
+            formControlName="username" 
+            id="username" 
+            type="text"
+            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:outline-none"
+            [ngClass]="{'border-red-500': form.get('username')?.invalid && form.get('username')?.touched}"
+            placeholder="Enter your username">
+        </div>
+
+        <!-- Password -->
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+          <div class="relative">
+            <input 
+              formControlName="password" 
+              id="password" 
+              [type]="showPassword ? 'text' : 'password'"
+              class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:outline-none"
+              [ngClass]="{'border-red-500': form.get('password')?.invalid && form.get('password')?.touched}"
+              placeholder="Enter your password">
+            <button 
+              type="button"
+              (click)="togglePasswordVisibility()"
+              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              tabindex="-1">
+              <i class="fas" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Stay connected + Forgot password -->
+        <div class="flex items-center justify-between">
+          <label class="flex items-center text-sm text-gray-600">
+            <input 
+              type="checkbox" 
+              formControlName="remember"
+              class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded mr-2">
+            Stay connected
+          </label>
+          <a routerLink="/reset-password" class="text-sm text-primary-600 hover:underline">
+            Forgot password?
+          </a>
+        </div>
+
+        <!-- Submit Button -->
+        <button 
+          type="submit"
+          class="w-full bg-primary-600 text-white py-3 text-lg font-semibold rounded-lg hover:bg-primary-700 focus:ring-2 focus:ring-primary-500 disabled:opacity-50"
+          [disabled]="form.invalid || isLoading">
+          <ng-container *ngIf="!isLoading">Sign in</ng-container>
+          <ng-container *ngIf="isLoading">
+            <svg class="animate-spin h-5 w-5 inline-block mr-2 spinner" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+            </svg>
+            Signing in...
+          </ng-container>
+        </button>
+
+          <div class="text-center mt-2">
+            <span class="text-sm text-gray-600">Want to explore the app? </span>
+            <a routerLink="/request-demo" class="text-sm text-primary-600 hover:underline font-medium">
+              Request a demo
+            </a>
+          </div>
+      </form>
+    </div>
+
+    <!-- Right Side: Illustration -->
+    <div class="hidden lg:flex  items-center justify-center bg-[#F7F7F7] p-2 ">
+      <img src="assets/login-illustration.jpg" alt="Login Illustration" class="h-[400px] rounded-lg ">
+    </div>
+  </div>
+</div>

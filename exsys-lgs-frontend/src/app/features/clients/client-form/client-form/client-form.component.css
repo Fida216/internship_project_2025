@@ -1,0 +1,47 @@
+.client-form {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    background-color: #e3e3e3;
+    border-radius: 15px;
+}
+
+.form-content {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+/* Responsive 2-column grid for desktop */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 16px;
+}
+
+/* Full-width field for segment */
+.full-width {
+    grid-column: span 2;
+}
+
+/* Spinner in button */
+mat-dialog-actions button mat-progress-spinner {
+    margin-left: 8px;
+}
+
+/* Scrollbar for long forms (optional styling) */
+.form-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.form-content::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+/* Optional: better spacing for dialog header */
+h2[mat-dialog-title] {
+    margin-bottom: 16px;
+}
+

@@ -1,0 +1,84 @@
+<div class="min-h-screen flex items-center justify-center bg-secondary px-4 py-10">
+    <div class="bg-white shadow-lg rounded-2xl flex max-w-5xl w-full overflow-hidden">
+  
+      <!-- Left: Illustration -->
+      <div class="hidden md:flex flex-1 items-center justify-center bg-blue-50 p-6">
+        <img src="assets/demo-illustration.svg" alt="Demo Illustration" class="w-3/4 max-h-[400px]" />
+      </div>
+  
+      <!-- Right: Form -->
+      <div class="flex-1 p-8     sm:p-12">
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">Request Your Free Demo</h2>
+        <p class="text-gray-600 mb-8 text-sm leading-relaxed">
+          Discover how our platform empowers agencies to manage client leads, automate contact tracking, and increase conversion performance. 
+          Book a free personalized walkthrough to see how we can accelerate your growth.
+        </p>
+  
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5">
+  
+          <!-- Full Name -->
+          <div>
+            <label class="text-sm font-medium text-gray-700">Full Name</label>
+            <input type="text" formControlName="name"
+              class="mt-1 w-full px-4 py-2.5 rounded-lg border focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              [ngClass]="{ 'border-red-500': submitted && f['name'].errors }">
+            <div *ngIf="submitted && f['name'].errors" class="text-red-500 text-xs mt-1">
+              <div *ngIf="f['name'].errors['required']">Full name is required.</div>
+              <div *ngIf="f['name'].errors['minlength']">Name must be at least 2 characters.</div>
+            </div>
+          </div>
+  
+          <!-- Email -->
+          <div>
+            <label class="text-sm font-medium text-gray-700">Email</label>
+            <input type="email" formControlName="email"
+              class="mt-1 w-full px-4 py-2.5 rounded-lg border focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              [ngClass]="{ 'border-red-500': submitted && f['email'].errors }">
+            <div *ngIf="submitted && f['email'].errors" class="text-red-500 text-xs mt-1">
+              <div *ngIf="f['email'].errors['required']">Email is required.</div>
+              <div *ngIf="f['email'].errors['email']">Enter a valid email address.</div>
+            </div>
+          </div>
+  
+          <!-- Agency -->
+          <div>
+            <label class="text-sm font-medium text-gray-700">Agency</label>
+            <input type="text" formControlName="agency"
+              class="mt-1 w-full px-4 py-2.5 rounded-lg border focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              [ngClass]="{ 'border-red-500': submitted && f['agency'].errors }">
+            <div *ngIf="submitted && f['agency'].errors" class="text-red-500 text-xs mt-1">
+              <div *ngIf="f['agency'].errors['required']">Agency name is required.</div>
+              <div *ngIf="f['agency'].errors['minlength']">Agency name must be at least 2 characters.</div>
+            </div>
+          </div>
+  
+          <!-- Message -->
+          <div>
+            <label class="text-sm font-medium text-gray-700">Message <span class="text-gray-400 text-xs">(optional)</span></label>
+            <textarea rows="3" formControlName="message"
+              class="mt-1 w-full px-4 py-2.5 rounded-lg border focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              placeholder="Tell us more (optional)..."></textarea>
+          </div>
+  
+          <!-- Submit -->
+          <button type="submit" [disabled]="isLoading"
+            class="w-full bg-primary-600 text-white py-2.5 rounded-lg hover:bg-primary-700 focus:ring-2 focus:ring-primary-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+            <ng-container *ngIf="!isLoading">Send Request</ng-container>
+            <ng-container *ngIf="isLoading">
+              <svg class="animate-spin h-5 w-5 inline mr-2" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+              </svg>
+              Sending...
+            </ng-container>
+          </button>
+  
+          <!-- Success Message -->
+          <div *ngIf="success" class="mt-4 text-green-600 text-sm">
+            ✅ Thank you! We’ll get in touch with you soon.
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  

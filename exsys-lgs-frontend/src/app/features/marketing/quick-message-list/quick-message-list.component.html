@@ -1,0 +1,80 @@
+<div class="quick-message-list-container">
+    <div class="loader-container" *ngIf="isLoading">
+        <mat-progress-spinner mode="indeterminate" class="primary-spinner" diameter="80"></mat-progress-spinner>
+    </div>
+
+    <div *ngIf="!isLoading">
+        <div class="header">
+            <app-breadcrumb [items]="[
+                { label: 'Marketing', link: '/marketing' },
+                { label: 'Quick Messages' }
+            ]"></app-breadcrumb>
+            <button mat-raised-button color="primary" (click)="openCreateDialog()">
+                <mat-icon>add</mat-icon> New Quick Message
+            </button>
+        </div>
+
+        <div class="table-container">
+            <table mat-table [dataSource]="quickMessages" class="mat-elevation-z8">
+
+                <!-- Title Column -->
+                <ng-container matColumnDef="title">
+                    <th mat-header-cell *matHeaderCellDef>Title</th>
+                    <td mat-cell *matCellDef="let message">{{ message.title }}</td>
+                </ng-container>
+
+                <!-- Channel Type Column -->
+                <ng-container matColumnDef="channelType">
+                    <th mat-header-cell *matHeaderCellDef>Channel</th>
+                    <td mat-cell *matCellDef="let message">
+                        <mat-chip>
+                            <mat-icon>{{ getChannelIcon(message.channelType) }}</mat-icon>
+                            {{ message.channelType | titlecase }}
+                        </mat-chip>
+                    </td>
+                </ng-container>
+
+                <!-- Client Count Column -->
+                <ng-container matColumnDef="clientCount">
+                    <th mat-header-cell *matHeaderCellDef>Recipients</th>
+                    <td mat-cell *matCellDef="let message">
+                        {{ message.clientCount }} client(s)
+                    </td>
+                </ng-container>
+
+                <!-- Created At Column -->
+                <ng-container matColumnDef="createdAt">
+                    <th mat-header-cell *matHeaderCellDef>Sent On</th>
+                    <td mat-cell *matCellDef="let message">
+                        {{ message.createdAt | date:'mediumDate' }}
+                    </td>
+                </ng-container>
+
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef>Actions</th>
+                    <td mat-cell *matCellDef="let message">
+                        <button mat-icon-button color="primary" [routerLink]="['/marketing/messages', message.id]"
+                            [matTooltip]="'View details'">
+                            <mat-icon>visibility</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <!-- Header & Row Definitions -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+
+        <!-- Empty State -->
+        <div *ngIf="quickMessages.length === 0" class="empty-state">
+            <mat-icon>chat</mat-icon>
+            <h3>No Quick Messages Yet</h3>
+            <p>Create your first quick message to get started</p>
+            <button mat-raised-button color="primary" (click)="openCreateDialog()">
+                <mat-icon>add</mat-icon> Create Quick Message
+            </button>
+        </div>
+    </div>
+</div>

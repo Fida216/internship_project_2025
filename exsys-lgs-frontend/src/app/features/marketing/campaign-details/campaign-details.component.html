@@ -1,0 +1,103 @@
+<div class="campaign-details-container" *ngIf="campaign">
+    <!-- Breadcrumb -->
+    <app-breadcrumb [items]="[
+        { label: 'Marketing', link: '/marketing' },
+        { label: 'Campaigns', link: '/marketing/campaigns' },
+        { label: campaign.title }
+    ]"></app-breadcrumb>
+
+    <!-- Campaign Banner -->
+    <div class="campaign-banner">
+        <div class="banner-icon">
+            <mat-icon>campaign</mat-icon>
+        </div>
+        <div class="banner-info">
+            <h1>{{ campaign.title }}</h1>
+            <p>Status:
+                <mat-chip [color]="getStatusColor(campaign.status)" selected>
+                    {{ campaign.status | titlecase }}
+                </mat-chip>
+            </p>
+            <p>Period: {{ campaign.startDate | date:'mediumDate' }} - {{ campaign.endDate | date:'mediumDate' }}</p>
+            <p>Created: {{ campaign.createdAt | date:'mediumDate' }}</p>
+        </div>
+        <div class="banner-actions">
+            <button mat-raised-button color="primary" (click)="openCreateActionDialog()">
+                <mat-icon>add</mat-icon> Add Marketing Action
+            </button>
+        </div>
+    </div>
+
+    <!-- Campaign Description -->
+    <mat-card class="description-card">
+        <mat-card-header>
+            <mat-card-title>Description</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p>{{ campaign.description }}</p>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- Target Clients Section -->
+    <mat-card class="targets-card">
+        <mat-card-header>
+            <mat-card-title>Target Clients ({{ campaign.targetClients.length }})</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="clients-grid">
+                <div class="client-chip" *ngFor="let client of campaign.targetClients">
+                    <mat-chip>
+                        <mat-icon>person</mat-icon>
+                        {{ client.firstName }} {{ client.lastName }}
+                    </mat-chip>
+                </div>
+            </div>
+            <div *ngIf="campaign.targetClients.length === 0" class="empty-state">
+                <mat-icon>group</mat-icon>
+                <p>No clients added to this campaign yet</p>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- Marketing Actions Section -->
+    <mat-card class="actions-card">
+        <mat-card-header>
+            <mat-card-title>Marketing Actions ({{ campaign.marketingActions.length }})</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="actions-list">
+                <div class="action-item" *ngFor="let action of campaign.marketingActions">
+                    <div class="action-icon">
+                        <mat-icon [ngSwitch]="action.channelType">
+                            <span *ngSwitchCase="'email'">email</span>
+                            <span *ngSwitchCase="'sms'">sms</span>
+                            <span *ngSwitchCase="'whatsapp'">chat</span>
+                            <span *ngSwitchCase="'push'">notifications</span>
+                            <span *ngSwitchDefault>campaign</span>
+                        </mat-icon>
+                    </div>
+                    <div class="action-details">
+                        <h3>{{ action.title }}</h3>
+                        <p class="channel-type">{{ action.channelType | titlecase }}</p>
+                        <p class="action-content">{{ action.content }}</p>
+                        <p class="action-date">Created: {{ action.createdAt | date:'medium' }}</p>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="campaign.marketingActions.length === 0" class="empty-state">
+                <mat-icon>campaign</mat-icon>
+                <p>No marketing actions created yet</p>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+<!-- Loading Spinner -->
+<mat-spinner *ngIf="isLoading" class="primary-spinner"></mat-spinner>
+
+<!-- Back Button -->
+<div class="back-button-container">
+    <button mat-raised-button color="basic" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon> Back to Campaigns
+    </button>
+</div>

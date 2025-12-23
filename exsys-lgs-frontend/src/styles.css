@@ -1,0 +1,171 @@
+/* Tailwind directives (must be at the top) */
+@import url('https://fonts.googleapis.com/css2?family=Belgrano&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import "tailwindcss";
+
+
+
+@theme {
+  --color-primary-50: #f4f6fa;
+  --color-primary-100: #d9e0ee;
+  --color-primary-200: #b6c4dc;
+  --color-primary-300: #8da3c8;
+  --color-primary-400: #607bb1;
+  --color-primary-500: #3f5b99;
+  --color-primary-600: #223C7F;  /* your custom main color */
+  --color-primary-700: #1c316b;
+  --color-primary-800: #172857;
+  --color-primary-900: #101a3d;
+  --color-primary-950: #0a1228;
+}
+
+
+/* Rese t and base styles */
+* {
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif ;
+
+}   
+
+/* Define custom colors as CSS variables */
+:root {
+  --primary-color: #223C7F;
+  --secondary-color: #69C2C6;
+}
+
+
+
+
+
+mat-form-field  {
+  /* Filled container colors */
+  --mdc-filled-text-field-container-color: #f7fafc;
+  /* normal */
+  --mdc-filled-text-field-hover-container-color: #eef2f6;
+  /* hover */
+  --mdc-filled-text-field-focus-container-color: #e6edf5;
+  /* focused */
+
+  /* Keep your rounded shape consistent */
+  --mdc-filled-text-field-container-shape: 12px;
+
+  /* Let your bg show through on focus (removes dark tint) */
+  --mat-mdc-form-field-focus-overlay-color: transparent;
+}
+.mat-mdc-text-field-wrapper {
+  border-radius: 12px !important;
+}
+
+
+.mat-mdc-option{
+  padding: 10px 16px;
+}
+
+
+.mat-mdc-option,.mat-mdc-form-field-infix ,.mat-calendar{
+  /* use panel color */
+  background-color: #f7fafc !important;
+  font-size: 14px;
+
+}
+
+.mat-mdc-form-field-infix{
+  padding-left: 10px;
+}
+
+.mat-mdc-form-field-infix,.mat-calendar{
+ border-radius: 15px !important;
+  /* taller input area */
+}
+
+
+/* Hover effect */
+.mat-mdc-option:hover {
+  background-color: #e6edf5 !important;
+  /* hover color */
+}
+
+/* Selected item */
+.mat-mdc-option.mdc-list-item--selected {
+  background-color: #d1e3f8 !important;
+  /* selected bg */
+  font-weight: 500;
+}
+
+
+/* Global styles */
+body {
+  background-color: #E6E6E6;
+  font-family: 'Poppins', sans-serif;
+  color: var(--primary-color);
+  margin: 0;
+}
+
+
+.mat-mdc-snack-bar-container {
+  z-index: 9999 !important;
+}
+
+
+html {
+  height: 100%;
+}
+
+body {
+  @apply bg-gray-50;
+  color: var(--primary-color);
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* Custom Tailwind utilities */
+  /* .btn-primary {
+    @apply bg-primary-600 text-white py-2.5 px-4 rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .form-input {
+    @apply w-full px-4 py-2.5 rounded-lg border focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all;
+  }
+
+  .form-label {
+    @apply block text-sm font-medium text-gray-700 mb-1;
+  } */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+/* Loader styles */
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+
+mat-progress-spinner.primary-spinner .mdc-circular-progress__indeterminate-circle-graphic circle {
+  stroke: var(--color-gray-700) !important;
+}
+
+mat-spinner.primary-spinner .mdc-circular-progress__indeterminate-circle-graphic circle {
+  stroke: var(--color-gray-700) !important;
+}
+
+
+
+.mat-mdc-dialog-surface {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  /* optional: remove shadow */
+}
+
+/* .mat-mdc-dialog-surface .mat-mdc-form-field {
+  background-color: transparent;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.mat-mdc-dialog-surface .mat-mdc-form-field.mat-focused .mat-mdc-form-field-outline {
+  border-color: #3f51b5;
+}
+ */

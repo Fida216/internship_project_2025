@@ -1,0 +1,75 @@
+auth_controllers:
+    resource:
+        path: ../src/Domain/Auth/Controller/
+        namespace: App\Domain\Auth\Controller
+    type: attribute
+
+client_controllers:
+    resource:
+        path: ../src/Domain/Client/Controller/
+        namespace: App\Domain\Client\Controller
+    type: attribute
+
+exchange_office_controllers:
+    resource:
+        path: ../src/Domain/ExchangeOffice/Controller/
+        namespace: App\Domain\ExchangeOffice\Controller
+    type: attribute
+
+user_controllers:
+    resource:
+        path: ../src/Domain/User/Controller/
+        namespace: App\Domain\User\Controller
+    type: attribute
+
+transaction_controllers:
+    resource:
+        path: ../src/Domain/Transaction/Controller/
+        namespace: App\Domain\Transaction\Controller
+    type: attribute
+
+shared_controllers:
+    resource:
+        path: ../src/Shared/Controller/
+        namespace: App\Shared\Controller
+    type: attribute
+
+country_controllers:
+    resource:
+        path: ../src/Domain/Country/Controller/
+        namespace: App\Domain\Country\Controller
+    type: attribute
+
+quick_message_controllers:
+    resource:
+        path: ../src/Domain/QuickMessage/Controller/
+        namespace: App\Domain\QuickMessage\Controller
+    type: attribute
+
+client_segment_history_controllers:
+    resource:
+        path: ../src/Domain/ClientSegmentHistory/Controller/
+        namespace: App\Domain\ClientSegmentHistory\Controller
+    type: attribute
+
+marketing_campaign_controllers:
+    resource:
+        path: ../src/Domain/MarketingCampaign/Controller/
+        namespace: App\Domain\MarketingCampaign\Controller
+    type: attribute
+
+marketing_action_controllers:
+    resource:
+        path: ../src/Domain/MarketingAction/Controller/
+        namespace: App\Domain\MarketingAction\Controller
+    type: attribute
+# Routes pour la documentation API
+app.swagger_ui:
+    path: /api/doc
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
+
+app.swagger:
+    path: /api/doc.json
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger }

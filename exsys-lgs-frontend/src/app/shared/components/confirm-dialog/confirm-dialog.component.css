@@ -1,0 +1,13 @@
+/* shared/components/confirm-dialog/confirm-dialog.component.scss */
+mat-dialog-content {
+    padding: 16px 24px;
+}
+
+mat-dialog-actions {
+    padding: 8px 24px;
+    margin-bottom: 0;
+}
+
+.custom-dialog-bg{
+    background-color: white ;
+}

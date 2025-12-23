@@ -1,0 +1,72 @@
+.marketing-action-form {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    background-color: #e3e3e3;
+    border-radius: 15px;
+}
+
+.form-content {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.full-width {
+    grid-column: span 1;
+}
+
+.ai-improvement {
+    margin-top: 20px;
+    padding: 16px;
+    background: #f5f7ff;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ai-improvement button {
+    align-self: flex-start;
+}
+
+.ai-hint {
+    font-size: 12px;
+    color: #666;
+    font-style: italic;
+}
+
+mat-dialog-actions {
+    padding: 16px 24px;
+    border-top: 1px solid #e0e0e0;
+    margin-top: 16px;
+}
+
+@media (min-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .full-width {
+        grid-column: span 2;
+    }
+}
+
+/* Textarea styling */
+textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Channel type icons preview */
+mat-select {
+    font-weight: 500;
+}

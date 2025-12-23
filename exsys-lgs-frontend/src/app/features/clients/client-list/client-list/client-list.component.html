@@ -1,0 +1,164 @@
+<!-- features/clients/components/client-list/client-list.component.html -->
+<div class="client-list-container">
+
+    <!-- Loader -->
+    <div class="loader-container" *ngIf="isLoading">
+        <mat-progress-spinner mode="indeterminate" class="primary-spinner" diameter="80" >
+        </mat-progress-spinner>
+        <!-- <p>Loading clients...</p> -->
+    </div>
+
+    <div *ngIf="!isLoading">
+
+        <div class="header">
+            <app-breadcrumb [items]="[{ label: 'Clients' }]"></app-breadcrumb>
+            <button *ngIf="isMyClients"  mat-raised-button color="primary" (click)="openCreateDialog()">
+                <mat-icon>add</mat-icon> Add Client
+            </button>
+        </div>
+
+        <div class="filters">
+            <mat-form-field appearance="fill">
+                <mat-label>Search</mat-label>
+                <input matInput [(ngModel)]="searchQuery" (keyup.enter)="onSearch()">
+                <button matSuffix mat-icon-button (click)="onSearch()">
+                    <mat-icon>search</mat-icon>
+                </button>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Status</mat-label>
+                <mat-select [(ngModel)]="statusFilter" (selectionChange)="onFilterChange()">
+                    <mat-option value="">All</mat-option>
+                    <mat-option value="active">Active</mat-option>
+                    <mat-option value="inactive">Inactive</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Nationality</mat-label>
+                <mat-select [(ngModel)]="nationalityFilter" (selectionChange)="onFilterChange()">
+                    <mat-option value="">All</mat-option>
+                    <mat-option *ngFor="let country of countries" [value]="country.nationality">
+                        {{ country.nationality }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Gender</mat-label>
+                <mat-select [(ngModel)]="genderFilter" (selectionChange)="onFilterChange()">
+                    <mat-option value="">All</mat-option>
+                    <mat-option value="male">Male</mat-option>
+                    <mat-option value="female">Female</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" *ngIf="!isMyClients">
+                <mat-label>Exchange Office</mat-label>
+                <mat-select [(ngModel)]="selectedOfficeId" (selectionChange)="onOfficeChange()">
+                    <mat-option value="">All Offices</mat-option>
+                    <mat-option *ngFor="let office of exchangeOffices" [value]="office.id">
+                        {{ office.name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="table-container">
+            <table mat-table [dataSource]="clients" class="mat-elevation-z8">
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef>Name</th>
+                    <td mat-cell *matCellDef="let client">
+                        {{ client.firstName }} {{ client.lastName }}
+                    </td>
+                </ng-container>
+
+                <!-- Email Column -->
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef>Email</th>
+                    <td mat-cell *matCellDef="let client">{{ client.email }}</td>
+                </ng-container>
+
+                <!-- Phone Column -->
+                <ng-container matColumnDef="phone">
+                    <th mat-header-cell *matHeaderCellDef>Phone</th>
+                    <td mat-cell *matCellDef="let client">
+                        {{ client.phone }} <span *ngIf="client.whatsapp"> / {{ client.whatsapp }}</span>
+                    </td>
+                </ng-container>
+
+                <!-- Birth Date Column -->
+                <ng-container matColumnDef="birthDate">
+                    <th mat-header-cell *matHeaderCellDef>Birth Date</th>
+                    <td mat-cell *matCellDef="let client">
+                        {{ client.birthDate | date:'mediumDate' }}
+                    </td>
+                </ng-container>
+
+                <!-- Nationality Column -->
+                <ng-container matColumnDef="nationality">
+                    <th mat-header-cell *matHeaderCellDef>Nationality</th>
+                    <td mat-cell *matCellDef="let client">{{ client.nationality }}</td>
+                </ng-container>
+
+                <!-- Residence Column -->
+                <ng-container matColumnDef="residence">
+                    <th mat-header-cell *matHeaderCellDef>Residence</th>
+                    <td mat-cell *matCellDef="let client">{{ client.residence }}</td>
+                </ng-container>
+
+                <!-- Acquisition Source Column -->
+                <ng-container matColumnDef="acquisitionSource">
+                    <th mat-header-cell *matHeaderCellDef>Acquisition</th>
+                    <td mat-cell *matCellDef="let client">{{ client.acquisitionSource }}</td>
+                </ng-container>
+
+                <!-- Exchange Office Column -->
+                <ng-container matColumnDef="exchangeOffice">
+                    <th mat-header-cell *matHeaderCellDef>Exchange Office</th>
+                    <td mat-cell *matCellDef="let client">{{ client.exchangeOffice?.name }}</td>
+                </ng-container>
+
+                <!-- Status Column -->
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef>Status</th>
+                    <td mat-cell *matCellDef="let client">
+                        <mat-chip [ngClass]="client.status">{{ client.status | titlecase }}</mat-chip>
+                    </td>
+                </ng-container>
+
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef>Actions</th>
+                    <td mat-cell *matCellDef="let client">
+                        <ng-container *ngIf="isMyClients">
+                            <button mat-icon-button color="primary" (click)="openEditDialog(client); $event.stopPropagation()">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button color="warn" (click)="deleteClient(client.id); $event.stopPropagation()">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </ng-container>
+                    </td>
+                </ng-container>
+
+                <!-- Header & Row Definitions -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row 
+                    (click)="goToDetails(row)" 
+                    style="cursor: pointer;"
+                    *matRowDef="let row; columns: displayedColumns;"
+                >
+                </tr>
+            </table>
+
+
+            <mat-paginator [length]="totalClients"  [pageSize]="pageSize" [pageIndex]="pageIndex"
+                [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPageChange($event)" showFirstLastButtons >
+            </mat-paginator>
+        </div>
+    </div>
+</div>

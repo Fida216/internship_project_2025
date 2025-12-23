@@ -1,0 +1,251 @@
+.campaign-form {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    background-color: #e3e3e3;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.campaign-form h1[mat-dialog-title] {
+    margin: 0;
+    padding: 20px 24px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-weight: 600;
+    font-size: 24px;
+}
+
+.form-content {
+    padding: 24px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+/* Form field styling */
+mat-form-field.mat-form-field-appearance-fill .mat-form-field-flex {
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    transition: all 0.3s ease;
+}
+
+mat-form-field.mat-form-field-appearance-fill .mat-form-field-flex:hover {
+    border-color: #667eea;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+}
+
+mat-form-field.mat-form-field-appearance-fill.mat-form-field-focused .mat-form-field-flex {
+    border-color: #667eea;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* Label styling */
+mat-form-field.mat-form-field-appearance-fill .mat-form-field-label {
+    color: #666;
+    font-weight: 500;
+}
+
+mat-form-field.mat-form-field-appearance-fill.mat-form-field-focused .mat-form-field-label {
+    color: #667eea;
+}
+
+/* Input text styling */
+mat-form-field.mat-form-field-appearance-fill input,
+mat-form-field.mat-form-field-appearance-fill textarea {
+    color: #333;
+    font-size: 14px;
+}
+
+/* Select panel styling */
+.mat-select-panel {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border: 1px solid #e0e0e0;
+}
+
+.mat-option {
+    color: #333;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+.mat-option:hover {
+    background-color: #f5f7ff;
+}
+
+.mat-option.mat-selected {
+    background-color: #e3f2fd;
+    color: #1976d2;
+    font-weight: 500;
+}
+
+/* Datepicker styling */
+.mat-datepicker-content {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border: 1px solid #e0e0e0;
+}
+
+/* Dialog actions styling */
+mat-dialog-actions {
+    padding: 20px 24px;
+    background: #f5f5f5;
+    border-top: 1px solid #ddd;
+    margin-top: auto;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+mat-dialog-actions button {
+    min-width: 100px;
+    font-weight: 500;
+    border-radius: 6px;
+}
+
+mat-dialog-actions button[type="submit"] {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+mat-dialog-actions button[type="submit"]:hover:not([disabled]) {
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+mat-dialog-actions button[type="submit"]:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Loading spinner in button */
+mat-dialog-actions button mat-progress-spinner {
+    margin-left: 8px;
+}
+
+/* Error message styling */
+mat-error {
+    font-size: 12px;
+    color: #f44336;
+    font-weight: 500;
+    margin-top: 4px;
+}
+
+/* Scrollbar styling for form content */
+.form-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.form-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.form-content::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.form-content::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .campaign-form {
+        margin: 0;
+        border-radius: 0;
+        min-height: 100vh;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .form-content {
+        padding: 16px;
+    }
+
+    mat-dialog-actions {
+        padding: 16px;
+        flex-direction: column;
+    }
+
+    mat-dialog-actions button {
+        width: 100%;
+    }
+}
+
+/* Animation for form elements */
+mat-form-field,
+mat-select,
+button {
+    transition: all 0.3s ease;
+}
+
+/* Focus states for accessibility */
+mat-form-field.mat-form-field-appearance-fill .mat-form-field-flex:focus-within {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Placeholder styling */
+::placeholder {
+    color: #999;
+    opacity: 1;
+}
+
+/* Selection styling */
+::selection {
+    background-color: rgba(102, 126, 234, 0.2);
+    color: #333;
+}
+
+.selected-clients-preview {
+    margin-top: 20px;
+    padding: 16px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.selected-clients-preview h3 {
+    margin: 0 0 12px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+.clients-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.clients-chips mat-chip {
+    background: #e3f2fd !important;
+    color: #1976d2 !important;
+    font-weight: 500;
+}

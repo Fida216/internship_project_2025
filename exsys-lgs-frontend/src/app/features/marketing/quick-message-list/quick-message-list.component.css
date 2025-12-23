@@ -1,0 +1,91 @@
+.quick-message-list-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.quick-message-list-container .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.quick-message-list-container .table-container {
+    overflow-x: auto;
+    margin-bottom: 24px;
+}
+
+.quick-message-list-container table {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.quick-message-list-container .mat-column-actions {
+    width: 80px;
+    text-align: center;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+    background: #fafafa;
+    border-radius: 12px;
+    border: 2px dashed #e0e0e0;
+}
+
+.empty-state mat-icon {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+.empty-state h3 {
+    margin: 0 0 8px 0;
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.empty-state p {
+    margin: 0 0 24px 0;
+    font-size: 16px;
+    opacity: 0.8;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .quick-message-list-container .header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .quick-message-list-container .header button {
+        width: 100%;
+    }
+
+    .empty-state {
+        padding: 40px 16px;
+    }
+
+    .empty-state h3 {
+        font-size: 20px;
+    }
+}
+
+/* Chip styling */
+mat-chip {
+    font-weight: 500;
+}
+
+mat-chip mat-icon {
+    margin-right: 4px;
+    font-size: 16px;
+    height: 16px;
+    width: 16px;
+}

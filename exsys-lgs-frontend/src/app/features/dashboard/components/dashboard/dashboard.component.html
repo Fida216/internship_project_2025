@@ -1,0 +1,7 @@
+<div *ngIf="authService.getUserRole() === 'admin'">
+  <app-dashboard-admin></app-dashboard-admin>
+</div>
+
+<div *ngIf="authService.getUserRole() === 'agent'">
+  <app-dashboard-agent></app-dashboard-agent>
+</div>

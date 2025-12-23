@@ -1,0 +1,155 @@
+<form [formGroup]="clientForm"  (ngSubmit)="onSubmit()" class="client-form">
+    <h1 mat-dialog-title>{{ isEditMode ? 'Edit Client' : 'Create Client' }}</h1>
+
+    <mat-dialog-content class="form-content">
+
+        <div class="form-grid">
+
+            <!-- First Name -->
+            <mat-form-field appearance="fill">
+                <mat-label>First Name</mat-label>
+                <input matInput formControlName="firstName" required>
+                <mat-error *ngIf="clientForm.get('firstName')?.hasError('required')">
+                    First name is required
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Last Name -->
+            <mat-form-field appearance="fill">
+                <mat-label>Last Name</mat-label>
+                <input matInput formControlName="lastName" required>
+                <mat-error *ngIf="clientForm.get('lastName')?.hasError('required')">
+                    Last name is required
+                </mat-error>
+            </mat-form-field>
+
+            <!-- National ID -->
+            <mat-form-field appearance="fill">
+                <mat-label>National ID</mat-label>
+                <input matInput formControlName="nationalId">
+                <mat-error
+                    *ngIf="clientForm.hasError('nationalIdOrPassportRequired') && (clientForm.get('nationalId')?.touched || clientForm.get('passport')?.touched)">
+                    Either National ID or Passport is required
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Passport -->
+            <mat-form-field appearance="fill">
+                <mat-label>Passport</mat-label>
+                <input matInput formControlName="passport">
+                <mat-error
+                    *ngIf="clientForm.hasError('nationalIdOrPassportRequired') && (clientForm.get('nationalId')?.touched || clientForm.get('passport')?.touched)">
+                    Either National ID or Passport is required
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Email -->
+            <mat-form-field appearance="fill">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" type="email" required>
+                <mat-error *ngIf="clientForm.get('email')?.hasError('required')">
+                    Email is required
+                </mat-error>
+                <mat-error *ngIf="clientForm.get('email')?.hasError('email')">
+                    Please enter a valid email
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Phone -->
+            <mat-form-field appearance="fill">
+                <mat-label>Phone</mat-label>
+                <input matInput formControlName="phone" required>
+                <mat-error *ngIf="clientForm.get('phone')?.hasError('required')">
+                    Phone is required
+                </mat-error>
+                <mat-error *ngIf="clientForm.get('phone')?.hasError('pattern')">
+                    Please enter a valid phone number
+                </mat-error>
+            </mat-form-field>
+
+            <!-- WhatsApp -->
+            <mat-form-field appearance="fill">
+                <mat-label>WhatsApp</mat-label>
+                <input matInput formControlName="whatsapp">
+                <mat-error *ngIf="clientForm.get('whatsapp')?.hasError('pattern')">
+                    Please enter a valid phone number
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Birth Date -->
+            <mat-form-field appearance="fill">
+                <mat-label>Birth Date</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="birthDate" required>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="clientForm.get('birthDate')?.hasError('required')">
+                    Birth date is required
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Nationality -->
+            <mat-form-field appearance="fill">
+                <mat-label>Nationality</mat-label>
+                <mat-select formControlName="nationality" required>
+                    <mat-option *ngFor="let country of countries$ | async" [value]="country.nationality">
+                        {{ country.nationality }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="clientForm.get('nationality')?.hasError('required')">
+                    Nationality is required
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Residence -->
+            <mat-form-field appearance="fill">
+                <mat-label>Residence</mat-label>
+                <input matInput formControlName="residence" required>
+                <mat-error *ngIf="clientForm.get('residence')?.hasError('required')">
+                    Residence is required
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Gender -->
+            <mat-form-field appearance="fill">
+                <mat-label>Gender</mat-label>
+                <mat-select formControlName="gender" required>
+                    <mat-option *ngFor="let gender of genders" [value]="gender.value">
+                        {{ gender.label }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="clientForm.get('gender')?.hasError('required')">
+                    Gender is required
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Acquisition Source -->
+            <mat-form-field appearance="fill">
+                <mat-label>Acquisition Source</mat-label>
+                <mat-select formControlName="acquisitionSource" required>
+                    <mat-option *ngFor="let source of acquisitionSources" [value]="source.value">
+                        {{ source.label }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="clientForm.get('acquisitionSource')?.hasError('required')">
+                    Acquisition source is required
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Current Segment -->
+            <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Current Segment</mat-label>
+                <input matInput formControlName="currentSegment">
+            </mat-form-field>
+
+        </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button type="button" (click)="onCancel()">Cancel</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="clientForm.invalid || isLoading">
+            <span *ngIf="!isLoading">{{ isEditMode ? 'Update' : 'Create' }}</span>
+            <mat-progress-spinner *ngIf="isLoading" diameter="20" mode="indeterminate"
+                color="accent"></mat-progress-spinner>
+        </button>
+    </mat-dialog-actions>
+</form>

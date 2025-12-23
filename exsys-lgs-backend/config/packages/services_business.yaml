@@ -1,0 +1,29 @@
+# Configuration des services créés pour encapsuler la logique métier
+services:
+    # Service d'authentification
+    App\Domain\Auth\Service\AuthService:
+        arguments:
+            $userInfoRepository: '@App\Domain\User\Repository\UserInfoRepository'
+            $entityManager: '@doctrine.orm.entity_manager'
+
+    # Service de gestion des utilisateurs
+    App\Domain\User\Service\UserService:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $userInfoRepository: '@App\Domain\User\Repository\UserInfoRepository'
+            $exchangeOfficeRepository: '@App\Domain\ExchangeOffice\Repository\ExchangeOfficeRepository'
+            $validator: '@validator'
+
+    # Service de gestion des clients
+    App\Domain\Client\Service\ClientService:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $clientRepository: '@App\Domain\Client\Repository\ClientRepository'
+            $validator: '@validator'
+
+    # Service de gestion des bureaux de change
+    App\Domain\ExchangeOffice\Service\ExchangeOfficeService:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $exchangeOfficeRepository: '@App\Domain\ExchangeOffice\Repository\ExchangeOfficeRepository'
+            $validator: '@validator'

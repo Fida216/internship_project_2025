@@ -1,0 +1,79 @@
+<form [formGroup]="officeForm" (ngSubmit)="onSubmit()" class="office-form">
+    <h1 mat-dialog-title>{{ isEditMode ? 'Edit Office' : 'Create Office' }}</h1>
+
+    <mat-dialog-content class="form-content">
+        <div class="form-grid">
+            <!-- Name -->
+            <mat-form-field appearance="fill">
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name" required>
+                <mat-error *ngIf="officeForm.get('name')?.hasError('required')">
+                    Name is required
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Address -->
+            <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Address</mat-label>
+                <textarea matInput formControlName="address" rows="3" required></textarea>
+                <mat-error *ngIf="officeForm.get('address')?.hasError('required')">
+                    Address is required
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Email -->
+            <mat-form-field appearance="fill">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" type="email" required>
+                <mat-error *ngIf="officeForm.get('email')?.hasError('required')">
+                    Email is required
+                </mat-error>
+                <mat-error *ngIf="officeForm.get('email')?.hasError('email')">
+                    Please enter a valid email
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Phone -->
+            <mat-form-field appearance="fill">
+                <mat-label>Phone</mat-label>
+                <input matInput formControlName="phone" required>
+                <mat-error *ngIf="officeForm.get('phone')?.hasError('required')">
+                    Phone is required
+                </mat-error>
+                <mat-error *ngIf="officeForm.get('phone')?.hasError('pattern')">
+                    Please enter a valid phone number
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Owner -->
+            <mat-form-field appearance="fill">
+                <mat-label>Owner</mat-label>
+                <input matInput formControlName="owner" required>
+                <mat-error *ngIf="officeForm.get('owner')?.hasError('required')">
+                    Owner is required
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Status -->
+            <mat-form-field appearance="fill" *ngIf="isEditMode">
+                <mat-label>Status</mat-label>
+                <mat-select formControlName="status" required>
+                    <mat-option value="active">Active</mat-option>
+                    <mat-option value="inactive">Inactive</mat-option>
+                </mat-select>
+                <mat-error *ngIf="officeForm.get('status')?.hasError('required')">
+                    Status is required
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button type="button" (click)="onCancel()">Cancel</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="officeForm.invalid || isLoading">
+            <span *ngIf="!isLoading">{{ isEditMode ? 'Update' : 'Create' }}</span>
+            <mat-progress-spinner *ngIf="isLoading" diameter="20" mode="indeterminate"
+                color="accent"></mat-progress-spinner>
+        </button>
+    </mat-dialog-actions>
+</form>

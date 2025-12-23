@@ -1,0 +1,72 @@
+<div class="quick-message-details-container" *ngIf="quickMessage">
+    <!-- Breadcrumb -->
+    <app-breadcrumb [items]="[
+        { label: 'Marketing', link: '/marketing' },
+        { label: 'Quick Messages', link: '/marketing/messages' },
+        { label: quickMessage.title }
+    ]"></app-breadcrumb>
+
+    <!-- Quick Message Banner -->
+    <div class="message-banner">
+        <div class="banner-icon">
+            <mat-icon>{{ getChannelIcon(quickMessage.channelType) }}</mat-icon>
+        </div>
+        <div class="banner-info">
+            <h1>{{ quickMessage.title }}</h1>
+            <p>Channel:
+                <mat-chip [color]="getChannelColor(quickMessage.channelType)" selected>
+                    <mat-icon>{{ getChannelIcon(quickMessage.channelType) }}</mat-icon>
+                    {{ quickMessage.channelType | titlecase }}
+                </mat-chip>
+            </p>
+            <p>Sent to: {{ quickMessage.clients.length }} client(s)</p>
+        </div>
+    </div>
+
+    <!-- Message Content Section -->
+    <mat-card class="content-card">
+        <mat-card-header>
+            <mat-card-title>Message Content</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="message-content">
+                <p>{{ quickMessage.content }}</p>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- Recipients Section -->
+    <mat-card class="recipients-card">
+        <mat-card-header>
+            <mat-card-title>Recipients ({{ quickMessage.clients.length }})</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="clients-grid">
+                <div class="client-item" *ngFor="let client of quickMessage.clients">
+                    <mat-card class="client-card">
+                        <mat-card-header>
+                            <mat-card-title>
+                                <mat-icon>person</mat-icon>
+                                {{ client.firstName }} {{ client.lastName }}
+                            </mat-card-title>
+                        </mat-card-header>
+                    </mat-card>
+                </div>
+            </div>
+            <div *ngIf="quickMessage.clients.length === 0" class="empty-state">
+                <mat-icon>group</mat-icon>
+                <p>No recipients found for this message</p>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+<!-- Loading Spinner -->
+<mat-spinner *ngIf="isLoading" class="primary-spinner"></mat-spinner>
+
+<!-- Back Button -->
+<div class="back-button-container">
+    <button mat-raised-button color="basic" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon> Back to Quick Messages
+    </button>
+</div>

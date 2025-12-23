@@ -1,0 +1,68 @@
+<div class="client-details-container" *ngIf="client">
+
+    <!-- Breadcrumb + Banner -->
+    <app-breadcrumb [items]="[
+        { label: breadcrumbRootLabel, link: breadcrumbRootLabel === 'My Clients' ? '/my-clients' : '/clients' },
+        { label: client.firstName + ' ' + client.lastName }
+    ]">
+    </app-breadcrumb>
+
+    <div class="client-banner" [style]="">
+        <div class="banner-avatar">
+            <mat-icon>person</mat-icon>
+        </div>
+        <div class="banner-info">
+            <h1>{{ client.firstName }} {{ client.lastName }}</h1>
+            <p>Status: <mat-chip [color]="getStatusColor(client.status)" selected>
+                    {{ client.status | titlecase }}
+                </mat-chip></p>
+            <p>Joined: {{ client.createdAt | date:'mediumDate' }}</p>
+        </div>
+        <div class="banner-actions">
+            <button mat-raised-button color="primary" (click)="openEditDialog()">
+                <mat-icon>edit</mat-icon> Edit
+            </button>
+        </div>
+    </div>
+
+    <mat-card class="details-card">
+        <mat-card-content>
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3>Email</h3>
+                    <p>{{ client.email }}</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Phone</h3>
+                    <p>{{ client.phone }}</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3>WhatsApp</h3>
+                    <p>{{ client.whatsapp ? client.whatsapp : 'N/A' }}</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Residence</h3>
+                    <p>{{ client.residence ? client.residence : 'N/A' }}</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Gender</h3>
+                    <p>{{ client.gender ? (client.gender | titlecase) : 'N/A' }}</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Acquisition Source</h3>
+                    <p>{{ client.acquisitionSource ? (client.acquisitionSource | titlecase) : 'N/A' }}</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Current Segment</h3>
+                    <p>{{ client.currentSegment ? client.currentSegment : 'N/A' }}</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Exchange Office</h3>
+                    <p>{{ client.exchangeOffice?.name || 'N/A' }}</p>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>    
+</div>
+
+<mat-spinner *ngIf="isLoading" class="primary-spinnerr primary-spinner"></mat-spinner>

@@ -1,0 +1,38 @@
+.campaign-list-container {
+    padding: 20px;
+}
+
+.campaign-list-container .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.campaign-list-container .table-container {
+    overflow-x: auto;
+}
+
+.campaign-list-container table {
+    width: 100%;
+}
+
+.campaign-list-container .mat-column-actions {
+    width: 120px;
+    text-align: center;
+}
+
+.campaign-list-container .filters {
+    margin-bottom: 20px;
+}
+
+.campaign-list-container .filters mat-form-field {
+    width: 200px;
+}
+
+.chip-icon {
+    font-size: 16px;
+    height: 16px;
+    width: 16px;
+    margin-right: 4px;
+}

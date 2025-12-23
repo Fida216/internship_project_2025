@@ -1,0 +1,9 @@
+.logo-container {
+    margin-bottom: 2rem;
+  }
+  
+  /* Spinner alignment */
+  .spinner {
+    display: inline-block;
+    vertical-align: middle;
+  }

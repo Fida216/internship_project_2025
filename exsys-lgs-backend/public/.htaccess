@@ -1,0 +1,17 @@
+# Configuration pour Ollama
+# Augmenter les timeouts pour permettre à Ollama de répondre
+
+# Timeout d'exécution PHP
+php_value max_execution_time 180
+
+# Timeout de socket
+php_value default_socket_timeout 120
+
+# Limite de mémoire
+php_value memory_limit 256M
+
+# Taille max des posts (pour les gros prompts)
+php_value post_max_size 16M
+
+# Timeout de l'input
+php_value max_input_time 120

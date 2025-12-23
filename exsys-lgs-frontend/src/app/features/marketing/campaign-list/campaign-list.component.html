@@ -1,0 +1,101 @@
+<div class="campaign-list-container">
+    <div class="loader-container" *ngIf="isLoading">
+        <mat-progress-spinner mode="indeterminate" class="primary-spinner" diameter="80"></mat-progress-spinner>
+    </div>
+
+    <div *ngIf="!isLoading">
+        <div class="header">
+            <app-breadcrumb
+                [items]="[{ label: 'Marketing', link: '/marketing' }, { label: 'Campaigns' }]"></app-breadcrumb>
+            <button mat-raised-button color="primary" (click)="openCreateDialog()">
+                <mat-icon>add</mat-icon> Create Campaign
+            </button>
+        </div>
+
+        <div class="filters">
+            <mat-form-field appearance="fill">
+                <mat-label>Status</mat-label>
+                <mat-select [(ngModel)]="statusFilter">
+                    <mat-option value="">All</mat-option>
+                    <mat-option value="draft">Draft</mat-option>
+                    <mat-option value="active">Active</mat-option>
+                    <mat-option value="completed">Completed</mat-option>
+                    <mat-option value="cancelled">Cancelled</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="table-container">
+            <table mat-table [dataSource]="campaigns" class="mat-elevation-z8">
+
+                <!-- Title Column -->
+                <ng-container matColumnDef="title">
+                    <th mat-header-cell *matHeaderCellDef>Title</th>
+                    <td mat-cell *matCellDef="let campaign">{{ campaign.title }}</td>
+                </ng-container>
+
+                <!-- Status Column -->
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef>Status</th>
+                    <td mat-cell *matCellDef="let campaign">
+                        <mat-chip [color]="getStatusColor(campaign.status)" selected>
+                            <mat-icon class="chip-icon">{{ getStatusIcon(campaign.status) }}</mat-icon>
+                            {{ campaign.status | titlecase }}
+                        </mat-chip>
+                    </td>
+                </ng-container>
+
+                <!-- Start Date Column -->
+                <ng-container matColumnDef="startDate">
+                    <th mat-header-cell *matHeaderCellDef>Start Date</th>
+                    <td mat-cell *matCellDef="let campaign">
+                        {{ campaign.startDate | date:'mediumDate' }}
+                    </td>
+                </ng-container>
+
+                <!-- End Date Column -->
+                <ng-container matColumnDef="endDate">
+                    <th mat-header-cell *matHeaderCellDef>End Date</th>
+                    <td mat-cell *matCellDef="let campaign">
+                        {{ campaign.endDate | date:'mediumDate' }}
+                    </td>
+                </ng-container>
+
+                <!-- Target Client Count Column -->
+                <ng-container matColumnDef="targetClientCount">
+                    <th mat-header-cell *matHeaderCellDef>Target Clients</th>
+                    <td mat-cell *matCellDef="let campaign">
+                        {{ campaign.targetClientCount }}
+                    </td>
+                </ng-container>
+
+                <!-- Created At Column -->
+                <ng-container matColumnDef="createdAt">
+                    <th mat-header-cell *matHeaderCellDef>Created At</th>
+                    <td mat-cell *matCellDef="let campaign">
+                        {{ campaign.createdAt | date:'mediumDate' }}
+                    </td>
+                </ng-container>
+
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef>Actions</th>
+                    <td mat-cell *matCellDef="let campaign">
+                        <button mat-icon-button color="primary" [routerLink]="['/marketing/campaigns', campaign.id]">
+                            <mat-icon>visibility</mat-icon>
+                        </button>
+                        <button mat-icon-button color="accent"
+                            (click)="updateCampaignStatus(campaign.id, campaign.status)" [matTooltip]="campaign.status === 'active' ? 'Mark as Completed' : 
+                                              campaign.status === 'draft' ? 'Activate' : 'Change Status'">
+                            <mat-icon>{{ campaign.status === 'active' ? 'check_circle' : 'play_arrow' }}</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <!-- Header & Row Definitions -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,960 @@
+{
+	"info": {
+		"_postman_id": "12345678-1234-1234-1234-123456789abc",
+		"name": "ExSys LGS API - Complete Collection",
+		"description": "Collection complète pour tester tous les endpoints de l'API ExSys LGS Backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12345678"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    if (response.token) {",
+									"        pm.collectionVariables.set('jwt_token', response.token);",
+									"        console.log('Token saved:', response.token);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@exsys.com\",\n    \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						},
+						"description": "Authentifier un utilisateur et récupérer le token JWT"
+					}
+				},
+				{
+					"name": "Get Current User",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/auth/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"me"
+							]
+						},
+						"description": "Récupérer les informations de l'utilisateur connecté"
+					}
+				}
+			],
+			"description": "Endpoints d'authentification"
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"newuser@example.com\",\n    \"password\": \"SecurePass123!\",\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"phone\": \"+33123456789\",\n    \"role\": \"agent\",\n    \"exchangeOfficeId\": \"{{exchange_office_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						},
+						"description": "Créer un nouveau utilisateur"
+					}
+				},
+				{
+					"name": "List Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/users?page=1&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "role",
+									"value": "agent",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "active",
+									"disabled": true
+								},
+								{
+									"key": "exchangeOfficeId",
+									"value": "{{exchange_office_id}}",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Lister tous les utilisateurs avec filtres optionnels"
+					}
+				},
+				{
+					"name": "Get Agents Grouped by Exchange Office",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/users/agents/grouped-by-exchange-office",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"agents",
+								"grouped-by-exchange-office"
+							]
+						},
+						"description": "Récupérer les agents groupés par bureau de change"
+					}
+				},
+				{
+					"name": "Update User Status",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": \"{{user_id}}\",\n    \"status\": \"inactive\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/users/status",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"status"
+							]
+						},
+						"description": "Mettre à jour le statut d'un utilisateur"
+					}
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"oldPassword\": \"currentPassword123\",\n    \"newPassword\": \"newPassword456\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/users/change-password",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"change-password"
+							]
+						},
+						"description": "Changer le mot de passe de l'utilisateur connecté"
+					}
+				},
+				{
+					"name": "Reset User Password",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"newPassword\": \"ResetPass123!\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/users/reset-password?userId={{user_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"reset-password"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "{{user_id}}"
+								}
+							]
+						},
+						"description": "Réinitialiser le mot de passe d'un utilisateur (admin seulement)"
+					}
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": \"{{user_id}}\",\n    \"firstName\": \"John Updated\",\n    \"lastName\": \"Doe Updated\",\n    \"phone\": \"+33987654321\",\n    \"role\": \"admin\",\n    \"exchangeOfficeId\": \"{{exchange_office_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/users/update",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"update"
+							]
+						},
+						"description": "Mettre à jour les informations d'un utilisateur"
+					}
+				}
+			],
+			"description": "Endpoints de gestion des utilisateurs"
+		},
+		{
+			"name": "Exchange Offices",
+			"item": [
+				{
+					"name": "Create Exchange Office",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    const response = pm.response.json();",
+									"    if (response.id) {",
+									"        pm.collectionVariables.set('exchange_office_id', response.id);",
+									"        console.log('Exchange Office ID saved:', response.id);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Bureau Central\",\n    \"address\": \"123 Rue Principale, Paris\",\n    \"email\": \"central@exsys.com\",\n    \"phone\": \"+33123456789\",\n    \"owner\": \"Manager Central\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/exchange-offices",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"exchange-offices"
+							]
+						},
+						"description": "Créer un nouveau bureau de change"
+					}
+				},
+				{
+					"name": "List Exchange Offices",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/exchange-offices?page=1&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"exchange-offices"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "status",
+									"value": "active",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Lister tous les bureaux de change"
+					}
+				},
+				{
+					"name": "Update Exchange Office",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"{{exchange_office_id}}\",\n    \"name\": \"Bureau Central Modifié\",\n    \"address\": \"456 Nouvelle Adresse, Paris\",\n    \"email\": \"central-updated@exsys.com\",\n    \"phone\": \"+33987654321\",\n    \"owner\": \"Nouveau Manager\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/exchange-offices",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"exchange-offices"
+							]
+						},
+						"description": "Mettre à jour un bureau de change"
+					}
+				},
+				{
+					"name": "Update Exchange Office Status",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"{{exchange_office_id}}\",\n    \"status\": \"inactive\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/exchange-offices/status",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"exchange-offices",
+								"status"
+							]
+						},
+						"description": "Mettre à jour le statut d'un bureau de change"
+					}
+				},
+				{
+					"name": "Delete Exchange Office",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/exchange-offices?id={{exchange_office_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"exchange-offices"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{exchange_office_id}}"
+								}
+							]
+						},
+						"description": "Supprimer un bureau de change"
+					}
+				},
+				{
+					"name": "Get My Office",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/exchange-offices/my-office",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"exchange-offices",
+								"my-office"
+							]
+						},
+						"description": "Récupérer les informations du bureau de change de l'agent connecté"
+					}
+				}
+			],
+			"description": "Endpoints de gestion des bureaux de change"
+		},
+		{
+			"name": "Clients",
+			"item": [
+				{
+					"name": "Create Client",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    const response = pm.response.json();",
+									"    if (response.id) {",
+									"        pm.collectionVariables.set('client_id', response.id);",
+									"        console.log('Client ID saved:', response.id);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Marie\",\n    \"lastName\": \"Dupont\",\n    \"phone\": \"+33123456789\",\n    \"email\": \"marie.dupont@email.com\",\n    \"address\": \"123 Rue de la Paix, Paris\",\n    \"gender\": \"female\",\n    \"nationality\": \"french\",\n    \"acquisitionSource\": \"website\",\n    \"exchangeOfficeId\": \"{{exchange_office_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/clients",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"clients"
+							]
+						},
+						"description": "Créer un nouveau client"
+					}
+				},
+				{
+					"name": "List Clients by Office",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/clients/by-office?exchangeOfficeId={{exchange_office_id}}&page=1&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"clients",
+								"by-office"
+							],
+							"query": [
+								{
+									"key": "exchangeOfficeId",
+									"value": "{{exchange_office_id}}"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "gender",
+									"value": "female",
+									"disabled": true
+								},
+								{
+									"key": "nationality",
+									"value": "french",
+									"disabled": true
+								},
+								{
+									"key": "acquisitionSource",
+									"value": "website",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Lister les clients d'un bureau de change spécifique"
+					}
+				},
+				{
+					"name": "Get My Clients",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/clients/my-clients?page=1&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"clients",
+								"my-clients"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						},
+						"description": "Récupérer les clients de l'utilisateur connecté"
+					}
+				},
+				{
+					"name": "Get Client Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/clients/details?clientId={{client_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"clients",
+								"details"
+							],
+							"query": [
+								{
+									"key": "clientId",
+									"value": "{{client_id}}"
+								}
+							]
+						},
+						"description": "Récupérer les détails d'un client spécifique"
+					}
+				},
+				{
+					"name": "Update Client",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"clientId\": \"{{client_id}}\",\n    \"firstName\": \"Marie Updated\",\n    \"lastName\": \"Dupont Updated\",\n    \"phone\": \"+33987654321\",\n    \"email\": \"marie.updated@email.com\",\n    \"address\": \"456 Nouvelle Adresse, Paris\",\n    \"gender\": \"female\",\n    \"nationality\": \"french\",\n    \"acquisitionSource\": \"referral\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/clients",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"clients"
+							]
+						},
+						"description": "Mettre à jour les informations d'un client"
+					}
+				},
+				{
+					"name": "Delete Client",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/clients?clientId={{client_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"clients"
+							],
+							"query": [
+								{
+									"key": "clientId",
+									"value": "{{client_id}}"
+								}
+							]
+						},
+						"description": "Supprimer un client"
+					}
+				},
+				{
+					"name": "Get Clients Grouped by Exchange Office",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/clients/groupby_exchange_office",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"clients",
+								"groupby_exchange_office"
+							]
+						},
+						"description": "Récupérer tous les clients groupés par bureau de change"
+					}
+				}
+			],
+			"description": "Endpoints de gestion des clients"
+		},
+		{
+			"name": "Enums",
+			"item": [
+				{
+					"name": "Get All Roles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/enums/roles",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"enums",
+								"roles"
+							]
+						},
+						"description": "Récupérer tous les rôles disponibles"
+					}
+				},
+				{
+					"name": "Get All Statuses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/enums/statuses",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"enums",
+								"statuses"
+							]
+						},
+						"description": "Récupérer tous les statuts disponibles"
+					}
+				},
+				{
+					"name": "Get All Genders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/enums/genders",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"enums",
+								"genders"
+							]
+						},
+						"description": "Récupérer tous les genres disponibles"
+					}
+				},
+				{
+					"name": "Get All Nationalities",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/enums/nationalities",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"enums",
+								"nationalities"
+							]
+						},
+						"description": "Récupérer toutes les nationalités disponibles"
+					}
+				},
+				{
+					"name": "Get All Acquisition Sources",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/enums/acquisition-sources",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"enums",
+								"acquisition-sources"
+							]
+						},
+						"description": "Récupérer toutes les sources d'acquisition disponibles"
+					}
+				},
+				{
+					"name": "Get All Enums",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/enums/all",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"enums",
+								"all"
+							]
+						},
+						"description": "Récupérer tous les enums en une seule requête"
+					}
+				}
+			],
+			"description": "Endpoints pour récupérer les énumérations (listes de valeurs)"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "jwt_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "user_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "exchange_office_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "client_id",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

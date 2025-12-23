@@ -1,0 +1,109 @@
+doctrine:
+    dbal:
+        driver: 'sqlsrv'
+        url: '%env(resolve:DATABASE_URL)%'
+        charset: 'UTF-8'        
+        # IMPORTANT: You MUST configure your server version,
+        # either here or in the DATABASE_URL env var (see .env file)
+        server_version: '16'
+                
+        profiling_collect_backtrace: '%kernel.debug%'
+        use_savepoints: true
+    orm:
+        auto_generate_proxy_classes: true
+        enable_lazy_ghost_objects: true
+        report_fields_where_declared: true
+        validate_xml_mapping: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        identity_generation_preferences:
+            Doctrine\DBAL\Platforms\PostgreSQLPlatform: identity
+        auto_mapping: true
+        mappings:
+            Client:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Domain/Client/Entity'
+                prefix: 'App\Domain\Client\Entity'
+                alias: Client
+            ExchangeOffice:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Domain/ExchangeOffice/Entity'
+                prefix: 'App\Domain\ExchangeOffice\Entity'
+                alias: ExchangeOffice
+            User:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Domain/User/Entity'
+                prefix: 'App\Domain\User\Entity'
+                alias: User
+            Transaction:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Domain/Transaction/Entity'
+                prefix: 'App\Domain\Transaction\Entity'
+                alias: Transaction
+            QuickMessage:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Domain/QuickMessage/Entity'
+                prefix: 'App\Domain\QuickMessage\Entity'
+                alias: QuickMessage
+            Country:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Domain/Country/Entity'
+                prefix: 'App\Domain\Country\Entity'
+                alias: Country
+            MarketingCampaign:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Domain/MarketingCampaign/Entity'
+                prefix: 'App\Domain\MarketingCampaign\Entity'
+                alias: MarketingCampaign
+            MarketingAction:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Domain/MarketingAction/Entity'
+                prefix: 'App\Domain\MarketingAction\Entity'
+                alias: MarketingAction
+            Recommendation:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Domain/Recommendation/Entity'
+                prefix: 'App\Domain\Recommendation\Entity'
+                alias: Recommendation
+            ClientSegmentHistory:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Domain/ClientSegmentHistory/Entity'
+                prefix: 'App\Domain\ClientSegmentHistory\Entity'
+                alias: ClientSegmentHistory
+        controller_resolver:
+            auto_mapping: false
+
+when@test:
+    doctrine:
+        dbal:
+            # "TEST_TOKEN" is typically set by ParaTest
+            dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+
+when@prod:
+    doctrine:
+        orm:
+            auto_generate_proxy_classes: false
+            proxy_dir: '%kernel.build_dir%/doctrine/orm/Proxies'
+            query_cache_driver:
+                type: pool
+                pool: doctrine.system_cache_pool
+            result_cache_driver:
+                type: pool
+                pool: doctrine.result_cache_pool
+
+    framework:
+        cache:
+            pools:
+                doctrine.result_cache_pool:
+                    adapter: cache.app
+                doctrine.system_cache_pool:
+                    adapter: cache.system

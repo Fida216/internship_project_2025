@@ -1,0 +1,43 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: ExSys LGS API
+            description: API documentation for ExSys LGS Backend
+            version: 1.0.0
+        servers:
+            - url: 'http://localhost:8000'
+              description: 'Development server'
+            - url: 'https://api.exsys-lgs.com'
+              description: 'Production server'
+        tags:
+            - name: Authentication
+              description: User authentication endpoints
+            - name: Users
+              description: User management endpoints
+            - name: Exchange Offices
+              description: Exchange office management endpoints
+            - name: Clients
+              description: Client management endpoints
+            - name: Transactions
+              description: Transaction management endpoints
+            - name: Marketing Campaigns
+              description: Marketing campaign management endpoints
+            - name: Marketing Actions
+              description: Marketing action management endpoints
+            - name: Quick Messages
+              description: Quick message management endpoints
+            - name: Countries
+              description: Country management endpoints
+            - name: Enumerations
+              description: System enumerations and constants
+        components:
+            securitySchemes:
+                Bearer:
+                    type: http
+                    scheme: bearer
+                    bearerFormat: JWT
+        security:
+            - Bearer: []
+    areas:
+        path_patterns:
+            - ^/api # Toutes les routes /api

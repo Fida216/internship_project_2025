@@ -1,0 +1,43 @@
+.office-list-container {
+    padding: 20px;
+}
+
+.office-list-container .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.office-list-container .table-container {
+    overflow-x: auto;
+}
+
+.office-list-container table {
+    width: 100%;
+}
+
+.office-list-container .mat-column-actions {
+    width: 180px;
+    text-align: center;
+}
+
+.office-list-container .filters {
+    margin-bottom: 20px;
+}
+
+.office-list-container .filters mat-form-field {
+    width: 200px;
+}
+
+mat-chip.active {
+    background-color: #d4edda;
+    color: #155724;
+    font-weight: bold;
+}
+
+mat-chip.inactive {
+    background-color: #f8d7da;
+    color: #721c24;
+    font-weight: bold;
+}
